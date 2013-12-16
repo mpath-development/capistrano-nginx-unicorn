@@ -59,7 +59,6 @@ Capistrano::Configuration.instance.load do
       template "unicorn_init.erb", "/tmp/unicorn_init"
       run "chmod +x /tmp/unicorn_init"
       run "#{sudo} mv /tmp/unicorn_init /etc/init.d/unicorn_#{application}"
-      run "#{sudo} update-rc.d -f unicorn_#{application} defaults"
     end
 
     after "deploy:setup", "unicorn:setup"
@@ -67,7 +66,7 @@ Capistrano::Configuration.instance.load do
     %w[start stop restart].each do |command|
       desc "#{command} unicorn"
       task command, roles: :app do
-        run "service unicorn_#{application} #{command}"
+        run "#{sudo} service unicorn_#{application} #{command}"
       end
 
       after "deploy:#{command}", "unicorn:#{command}"
