@@ -4,19 +4,19 @@ upstream unicorn_<%= application %> {
 
 <% if nginx_use_ssl %>
 server {
-  listen 80;
+  listen <%= http_port %>;
   rewrite ^(.*) https://$host$1 permanent;
 }
 <% end %>
 
 server {
 <% if nginx_use_ssl %>
-  listen 443;
+  listen <%= http_port %>;
   ssl on;
   ssl_certificate /etc/ssl/certs/<%= nginx_ssl_certificate %>;
   ssl_certificate_key /etc/ssl/private/<%= nginx_ssl_certificate_key %>;
 <% else %>
-  listen 80;
+  listen <%= http_port %>;
 <% end %>
 
   server_name <%= nginx_server_name %>;
