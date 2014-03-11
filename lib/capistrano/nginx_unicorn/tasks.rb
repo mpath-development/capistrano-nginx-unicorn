@@ -45,9 +45,11 @@ Capistrano::Configuration.instance.load do
     after "deploy:setup", "nginx:setup"
     after "deploy:setup", "nginx:reload"
 
-    desc "Reload nginx configuration"
-    task :reload, roles: :web do
-      run "#{sudo} /etc/init.d/nginx reload"
+    %[start stop reload].each do |command|
+      desc "#{command} nginx"
+      task command, roles: :web do
+        run "#{sudo} /etc/init.d/nginx #{command}"
+      end
     end
   end
 
