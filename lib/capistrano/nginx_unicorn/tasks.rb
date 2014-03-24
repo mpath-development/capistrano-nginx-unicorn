@@ -25,8 +25,7 @@ Capistrano::Configuration.instance.load do
     desc "Setup nginx configuration for this application"
     task :setup, roles: :web do
       template("nginx_conf.erb", "/tmp/#{application}")
-      run "#{sudo} mv /tmp/#{application} /etc/nginx/sites-available/#{application}"
-      run "#{sudo} ln -fs /etc/nginx/sites-available/#{application} /etc/nginx/sites-enabled/#{application}"
+      run "#{sudo} mv /tmp/#{application} /etc/nginx/conf.d/#{application}"
 
       if nginx_use_ssl
         if nginx_upload_local_certificate
