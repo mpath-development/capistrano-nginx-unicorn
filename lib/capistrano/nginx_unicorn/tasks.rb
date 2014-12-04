@@ -20,6 +20,7 @@ Capistrano::Configuration.instance.load do
   set_default(:unicorn_log) { "#{shared_path}/log/unicorn.log" }
   set_default(:unicorn_user) { user }
   set_default(:unicorn_workers) { Capistrano::CLI.ui.ask "Number of unicorn workers: " }
+  set_default(:unicorn_timeout) { 30 }
 
   namespace :nginx do
     desc "Setup nginx configuration for this application"
